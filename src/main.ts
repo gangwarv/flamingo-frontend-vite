@@ -3,14 +3,20 @@ import App from './App.vue'
 
 //createApp(App).mount('#app')
 
-import { provide, h } from 'vue';
-import { DefaultApolloClient } from '@vue/apollo-composable'
-import apolloClient from './graphql/apollo.client'
+import { h } from 'vue'; 
+import apolloClient from './graphql/apollo.client';
+import { createApolloProvider } from '@vue/apollo-option';
+import VueApolloComponents from '@vue/apollo-components';
+
+const apolloProvider = createApolloProvider({
+    defaultClient: apolloClient
+})
 
 const app = createApp({
-    setup(){
-        provide(DefaultApolloClient, apolloClient)
-    },
+    render: () => h(App)
+})
 
-    render:() => h(App)
-}).mount('#app')
+app.use(apolloProvider)
+app.use(VueApolloComponents)
+
+app.mount('#app')
